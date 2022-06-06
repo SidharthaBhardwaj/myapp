@@ -8,9 +8,9 @@ router.get('/', function(req, res, next) {
    // res.render( { name: 'sidhartha bhardwaj' });
 
 });
-// router.get('/data', function(req, res, next) {
-//    res.json({name:req.query.name,age:req.query.contact});
-//  });
+router.get('/sid', function(req, res, next) {
+   res.json({name:req.query.name,age:req.query.contact});
+ });
  router.post('/data', function(req, res, next) {
    res.json({name:req.body.name,age:req.body.contact});
  });
