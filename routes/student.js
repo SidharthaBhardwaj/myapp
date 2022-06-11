@@ -3,9 +3,9 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-//   res.send('eraf');
+//   res.send('sid');
   console.log(req)
-  res.json({name:"eraf"})
+  res.json({name:"sid"})
 });
 router.get('/:da-:ta', function(req, res, next) {
       console.log(req.params)
