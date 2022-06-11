@@ -3,10 +3,29 @@ var router = express.Router();
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "1234",
-  database: "data"
+  host: "easylearning.guru",
+  user: "kcc_student",
+  password: "Kccitm.edu.in1",
+  database: "kccStudent"
+});
+var pool        = mysql.createPool({
+  connectionLimit : 10, // default = 10
+  host            : 'easylearning.guru',
+  user            : 'kcc_student',
+  password        : 'Kccitm.edu.in1',
+  database        : 'kccStudent'
+});
+
+router.get('/test/query', function (req, res) {
+  pool.getConnection(function (err, connection) {
+      connection.query("SELECT * FROM kccStudent.form", function (err, rows) {
+          connection.release();
+          if (err) throw err;
+
+          console.log(rows.length);
+          res.send(JSON.stringify(rows));
+      });
+  });
 });
 
 router.get('/', function(req, res, next) {
@@ -19,7 +38,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/about', function(req, res, next) {
     console.log(req.body)
-    var sql = "INSERT INTO `form_details` (`name`, `country`, `age`) \
+    var sql = "INSERT INTO `kccStudent`.`form`(`name`, `country`, `age`) \
     VALUES ('"+req.body.name+"', '"+req.body.country+"', '"+req.body.age+"');"
     console.log(sql)
    con.connect()
@@ -28,18 +47,37 @@ router.post('/about', function(req, res, next) {
         console.log(result);
 
       });
-      var sql1 = "select * from `form_details`"
-      con.query(sql1, function (err, result) {
-        if (err) throw err;
-        console.log(result);
-      });
+      // var sql1 = "select * from `form_details`"
+      // con.query(sql1, function (err, result) {
+      //   if (err) throw err;
+      //   console.log(result);
+      // });
 res.json({"Name":req.body})
 });
 
+router.get('/data', function(req, res, next) {
+  console.log(req.query)
+  var sql = "INSERT INTO `form_details` (`name`, `country`, `age`) \
+  VALUES ('"+req.query.name+"', '"+req.query.country+"', '"+req.query.age+"');"
+  console.log(sql)
+ con.connect()
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log(result);
+
+    });
+    var sql1 = "select * from `form_details`"
+    con.query(sql1, function (err, result) {
+      if (err) throw err;
+      console.log(result);
+    });
+res.json({"Name":req.query})
+});
+
 router.get('/where', function(req, res, next) {
-  //   res.send('eraf');
+ 
     console.log(req)
-    res.json({name:"eraf"})
+    res.json({name:"sid"})
   });
 
 module.exports = router;
